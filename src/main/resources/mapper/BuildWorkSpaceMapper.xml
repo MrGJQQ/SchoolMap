@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolmap.mapper.BuildWorkSpaceMapper">
+    <insert id="insertWorkSpace">
+        INSERT INTO location_workspace (space_no, space_name, type, build_id, uploader, created_at)
+        VALUES (#{spaceNo}, #{spaceName}, #{type}, #{buildId}, #{uploader}, NOW())
+    </insert>
+    <update id="deleteWorkSpacesByIds">
+        update location_workspace
+        SET deleted_at = NOW()
+        WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateWorkSpace">
+        UPDATE location_workspace
+        SET space_no = #{spaceNo},
+            space_name = #{spaceName},
+            type = #{type},
+            build_id = #{buildId},
+            uploader = #{uploader},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 分页查询工作空间 -->
+    <select id="getWorkSpacesByPage" resultType="com.schoolmap.entity.BuildWorkSpace">
+        SELECT * FROM location_workspace
+        <where>
+            <if test="conditions.spaceNo != null and conditions.spaceNo != ''">
+                AND space_no LIKE CONCAT('%', #{conditions.spaceNo}, '%')
+            </if>
+            <if test="conditions.spaceName != null and conditions.spaceName != ''">
+                AND space_name LIKE CONCAT('%', #{conditions.spaceName}, '%')
+            </if>
+            <if test="conditions.type != null and conditions.type != ''">
+                AND type = #{conditions.type}
+            </if>
+            <if test="conditions.buildId != null">
+                AND build_id = #{conditions.buildId}
+            </if>
+            <if test="conditions.uploader != null and conditions.uploader != ''">
+                AND uploader = #{conditions.uploader}
+            </if>
+            AND deleted_at IS NULL
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <!-- 统计工作空间数量 -->
+    <select id="countWorkSpaceNums" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM location_workspace
+        <where>
+            <if test="conditions.spaceNo != null and conditions.spaceNo != ''">
+                AND space_no LIKE CONCAT('%', #{conditions.spaceNo}, '%')
+            </if>
+            <if test="conditions.spaceName != null and conditions.spaceName != ''">
+                AND space_name LIKE CONCAT('%', #{conditions.spaceName}, '%')
+            </if>
+            <if test="conditions.type != null and conditions.type != ''">
+                AND type = #{conditions.type}
+            </if>
+            <if test="conditions.buildId != null">
+                AND build_id = #{conditions.buildId}
+            </if>
+            <if test="conditions.uploader != null and conditions.uploader != ''">
+                AND uploader = #{conditions.uploader}
+            </if>
+            AND deleted_at IS NULL
+        </where>
+    </select>
+
+</mapper>

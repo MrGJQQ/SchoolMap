@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolmap.mapper.UserMapper">
+
+    <insert id="insertUser" parameterType="com.schoolmap.entity.User">
+        INSERT INTO map_user (username, password, name, photo, phone, power, created_at, updated_at)
+        VALUES (#{username}, #{password}, #{name}, #{photo}, #{phone}, #{power}, NOW(), NOW())
+    </insert>
+
+    <update id="updateUser">
+        UPDATE map_user
+        SET password = #{password},
+            name = #{name},
+            photo = #{photo},
+            phone = #{phone},
+            power = #{power},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteUser" parameterType="java.util.List">
+        UPDATE map_user
+        SET deleted_at = NOW()
+        WHERE id IN
+        <foreach collection="list" item="user" open="(" separator="," close=")">
+            #{user.id}
+        </foreach>
+    </update>
+
+    <select id="queryById" resultType="com.schoolmap.entity.User">
+        SELECT * FROM map_user WHERE id = #{id} and deleted_at IS NULL
+    </select>
+    <select id="queryByIdList" resultType="com.schoolmap.entity.User">
+        SELECT * FROM map_user WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        AND deleted_at IS NULL
+    </select>
+
+    <select id="getUsersByPage" resultType="com.schoolmap.entity.User">
+        SELECT * FROM map_user
+        <where>
+            <if test="conditions.username != null and conditions.username != ''">
+                AND username LIKE CONCAT('%', #{conditions.username}, '%')
+            </if>
+            <if test="conditions.name != null and conditions.name != ''">
+                AND name LIKE CONCAT('%', #{conditions.name}, '%')
+            </if>
+            <if test="conditions.phone != null and conditions.phone != ''">
+                AND phone LIKE CONCAT('%', #{conditions.phone}, '%')
+            </if>
+            <if test="conditions.power != null">
+                AND power = #{conditions.power}
+            </if>
+            AND deleted_at IS NULL
+        </where>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countUserNums" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM map_user
+        <where>
+            <if test="conditions.username != null and conditions.username != ''">
+                AND username LIKE CONCAT('%', #{conditions.username}, '%')
+            </if>
+            <if test="conditions.name != null and conditions.name != ''">
+                AND name LIKE CONCAT('%', #{conditions.name}, '%')
+            </if>
+            <if test="conditions.phone != null and conditions.phone != ''">
+                AND phone LIKE CONCAT('%', #{conditions.phone}, '%')
+            </if>
+            <if test="conditions.power != null">
+                AND power = #{conditions.power}
+            </if>
+            AND deleted_at IS NULL
+        </where>
+    </select>
+
+
+
+</mapper>

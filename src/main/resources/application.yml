@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: schoolmap
+  datasource:
+    url: jdbc:mysql://localhost:3306/schoolmap
+    username: root
+    password: 123456
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置
+logging:
+  level:
+    # MyBatis Plus Mapper接口日志级别
+    com.schoolmap.mapper: debug
+    # MyBatis SQL日志级别
+    org.apache.ibatis: debug
+    # JDBC日志级别（可选）
+    java.sql: debug
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+
+server:
+  port: 8080

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolmap.mapper.RoadMapper">
+
+
+    <select id="getRoadEdgesByPage" resultType="com.schoolmap.entity.RoadEdge">
+        SELECT * FROM road_edge
+        <where>
+            <if test="params.roadId != null and params.roadId != ''">
+                AND road_id = #{params.roadId}
+            </if>
+            <if test="params.roadName != null and params.roadName != ''">
+                AND road_name LIKE CONCAT('%', #{params.roadName}, '%')
+            </if>
+            <if test="params.beginNode != null and params.beginNode != ''">
+                AND begin_node LIKE CONCAT('%', #{cond})
+            </if>
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="countRoadEdgesNums" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM road_edge
+        <where>
+            <if test="params.roadId != null and params.roadId != ''">
+                AND road_id = #{params.roadId}
+            </if>
+            <if test="params.roadName != null and params.roadName != ''">
+                AND road_name LIKE CONCAT('%', #{params.roadName}, '%')
+            </if>
+            <if test="params.beginNode != null and params.beginNode != ''"></if>
+        </where>
+    </select>
+    <select id="getRoadNodesByPage" resultType="com.schoolmap.entity.RoadNode">
+        SELECT * FROM road_node
+        <where>
+            <if test="params.nodeId != null and params.nodeId != ''">
+                AND node_id = #{params.nodeId}
+            </if>
+            <if test="params.nodeName != null and params.nodeName != ''">
+                AND node_name LIKE CONCAT('%', #{params.nodeName}, '%')
+            </if>
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="countRoadNodesNums" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM road_node
+        <where>
+            <if test="params.nodeId != null and params.nodeId != ''">
+                AND node_id = #{params.nodeId}
+            </if>
+            <if test="params.nodeName != null and params.nodeName != ''">
+                AND node_name LIKE CONCAT('%', #{params.nodeName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertRoadEdges" parameterType="com.schoolmap.entity.RoadEdge">
+        INSERT INTO road_edge (road_id, road_name, begin_node, end_node, length, type,about,uploader,created_at, updated_at)
+        VALUES (#{roadId}, #{roadName}, #{beginNode}, #{endNode}, #{length},#{type},#{about},#{uploader},NOW(), NOW())
+    </insert>
+
+    <insert id="insertRoadNodes" parameterType="com.schoolmap.entity.RoadNode">
+        INSERT INTO road_node (node_id, node_name,gis,about,uploader, created_at, updated_at)
+        VALUES (#{nodeId}, #{nodeName}, #{gis} , #{about} , #{uploader} , NOW(), NOW())
+    </insert>
+
+
+    <update id="updateRoadEdges" parameterType="com.schoolmap.entity.RoadEdge">
+        UPDATE road_edge
+        SET road_id = #{roadId},
+            road_name = #{roadName},
+            begin_node = #{beginNode},
+            end_node = #{endNode},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+    <update id="updateRoadNodes" parameterType="com.schoolmap.entity.RoadNode">
+        UPDATE road_node
+        SET node_id = #{nodeId},
+            node_name = #{nodeName},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+
+    <update id="deleteRoadEdges" parameterType="java.util.List">
+        UPDATE road_edge
+        SET deleted_at = NOW()
+        WHERE id IN
+        <foreach item="id" collection="list" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="deleteRoadNodes" parameterType="java.util.List">
+        UPDATE road_node
+        SET deleted_at = NOW()
+        WHERE id IN
+        <foreach item="id" collection="list" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+</mapper>
