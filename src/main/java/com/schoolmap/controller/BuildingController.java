@@ -2,11 +2,11 @@ package com.schoolmap.controller;
 
 import com.schoolmap.common.Result;
 import com.schoolmap.constants.Constants;
+import com.schoolmap.entity.BuildWorkSpace;
 import com.schoolmap.entity.Building;
 import com.schoolmap.entity.dto.PageResultDTO;
 import com.schoolmap.service.BuildingService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,6 +27,13 @@ public class BuildingController {
         return Result.success(buildingList);
     }
 
+    @GetMapping("/getBuildingChild")
+    public Result getBuildingChild(Integer buildId){
+        List<BuildWorkSpace> workSpaceList = buildingService.getBuildingChild(buildId);
+        return Result.success(workSpaceList);
+    }
+
+
     @GetMapping("/queryById/{id}")
     public Result queryByBuildId(@PathVariable Integer id) {
         Building building = buildingService.queryById(id);
@@ -39,8 +46,6 @@ public class BuildingController {
                                      @RequestParam(defaultValue = "10") Long pageSize,
                                      @RequestParam(required = false) String buildNo,
                                      @RequestParam(required = false) String buildName,
-                                     @RequestParam(required = false) String type,
-                                     @RequestParam(required = false) Integer containId,
                                      @RequestParam(required = false) String uploader) {
         Map<String, Object> params = new HashMap<>();
         if (buildNo != null && !buildNo.isEmpty()) {
@@ -48,12 +53,6 @@ public class BuildingController {
         }
         if (buildName != null && !buildName.isEmpty()) {
             params.put("buildName", buildName);
-        }
-        if (type != null && !type.isEmpty()) {
-            params.put("type", type);
-        }
-        if (containId != null) {
-            params.put("containId", containId);
         }
         if (uploader != null && !uploader.isEmpty()) {
             params.put("uploader", uploader);

@@ -1,8 +1,11 @@
 package com.schoolmap.service.impl;
 
+import com.schoolmap.entity.BuildWorkSpace;
 import com.schoolmap.entity.Building;
 import com.schoolmap.entity.dto.PageResultDTO;
+import com.schoolmap.mapper.BuildWorkSpaceMapper;
 import com.schoolmap.mapper.BuildingMapper;
+import com.schoolmap.service.BuildWorkSpaceService;
 import com.schoolmap.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +18,17 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private BuildingMapper buildingMapper;
+    @Autowired
+    private BuildWorkSpaceMapper buildWorkSpaceMapper;
 
     @Override
     public Building queryByBuildNo(String buildNo) {
         return buildingMapper.queryByBuildNo(buildNo);
+    }
+
+    @Override
+    public List<BuildWorkSpace> getBuildingChild(Integer id) {
+        return buildWorkSpaceMapper.getSpaceListByBuildId(id);
     }
 
     @Override

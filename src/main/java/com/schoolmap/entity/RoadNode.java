@@ -13,9 +13,13 @@ public class RoadNode implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private Integer nodeId;
+    private String nodeNo;
 
     private String nodeName;
+
+    private Integer nodeType;
+
+    private Integer belong;
 
     private String gis;
 

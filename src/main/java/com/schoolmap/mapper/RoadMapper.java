@@ -24,4 +24,7 @@ public interface RoadMapper {
 
     Boolean deleteRoadEdges(List<Integer> roadEdgeIds) ;
     Boolean deleteRoadNodes(List<Integer> roadNodeIds) ;
+
+    List<RoadEdge> listAllRoadEdge();
+    List<RoadNode> listAllRoadNode();
 }

@@ -1,5 +1,6 @@
 package com.schoolmap.service;
 
+import com.schoolmap.entity.BuildWorkSpace;
 import com.schoolmap.entity.Building;
 import com.schoolmap.entity.dto.PageResultDTO;
 
@@ -9,6 +10,8 @@ import java.util.Map;
 public interface BuildingService {
 
     List<Building> listAllbuild();
+
+    List<BuildWorkSpace> getBuildingChild(Integer id);
 
     Building queryById(Integer id);
 

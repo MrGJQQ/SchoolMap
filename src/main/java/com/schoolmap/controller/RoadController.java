@@ -2,6 +2,7 @@ package com.schoolmap.controller;
 
 import com.schoolmap.common.Result;
 import com.schoolmap.constants.Constants;
+import com.schoolmap.entity.BuildWorkSpace;
 import com.schoolmap.entity.RoadEdge;
 import com.schoolmap.entity.RoadNode;
 import com.schoolmap.entity.dto.PageResultDTO;
@@ -20,12 +21,25 @@ public class RoadController {
 
     @Resource
     private RoadService roadService;
+
+    @GetMapping("/getAllRoad")
+    public Result getAllRoadEdge() {
+        List<RoadEdge> roadEdgeList = roadService.listAllRoadEdge();
+        return Result.success(roadEdgeList);
+    }
+    @GetMapping("/getAllEdge")
+    public Result getAllRoadNode() {
+        List<RoadNode> roadNodeList = roadService.listAllRoadNode();
+        return Result.success(roadNodeList);
+    }
+
+
     @GetMapping
     public Result pageRoadEdges(@RequestParam(defaultValue = "1") Long currentPage,
                                 @RequestParam(defaultValue = "10") Long pageSize,
                                 @RequestParam(required = false) String roadNo,
                                 @RequestParam(required = false) String roadName,
-                                @RequestParam(required = false) String type,
+                                @RequestParam(required = false) Integer roadType,
                                 @RequestParam(required = false) String uploader) {
         Map<String, Object> params = new HashMap<>();
         if (roadNo != null && !roadNo.isEmpty()) {
@@ -34,8 +48,8 @@ public class RoadController {
         if (roadName != null && !roadName.isEmpty()) {
             params.put("roadName", roadName);
         }
-        if (type != null && !type.isEmpty()) {
-            params.put("type", type);
+        if (roadType != null) {
+            params.put("roadType", roadType);
         }
         if (uploader != null && !uploader.isEmpty()) {
             params.put("uploader", uploader);
@@ -49,14 +63,23 @@ public class RoadController {
                                 @RequestParam(defaultValue = "10") Long pageSize,
                                 @RequestParam(required = false) String nodeNo,
                                 @RequestParam(required = false) String nodeName,
+                                @RequestParam(required = false) Integer nodeType,
+                                @RequestParam(required = false) Integer belong,
                                 @RequestParam(required = false) String uploader) {
         Map<String, Object> params = new HashMap<>();
         if (nodeNo != null && !nodeNo.isEmpty()) {
-            params.put("roadNo", nodeNo);
+            params.put("nodeNo", nodeNo);
         }
         if (nodeName != null && !nodeName.isEmpty()) {
-            params.put("roadName", nodeName);
+            params.put("nodeName", nodeName);
         }
+        if (nodeType != null) {
+            params.put("nodeType", nodeType);
+        }
+        if (belong != null) {
+            params.put("belong", belong);
+        }
+
         if (uploader != null && !uploader.isEmpty()) {
             params.put("uploader", uploader);
         }

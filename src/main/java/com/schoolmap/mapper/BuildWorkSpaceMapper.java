@@ -35,4 +35,8 @@ public interface BuildWorkSpaceMapper{
     Boolean insertWorkSpace(BuildWorkSpace workSpace);
 
     Boolean updateWorkSpace(BuildWorkSpace workSpace);
+
+    List<BuildWorkSpace> listAllbuild();
+
+    List<BuildWorkSpace> getSpaceListByBuildId(Integer id);
 }

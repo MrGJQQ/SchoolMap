@@ -12,9 +12,10 @@
             <if test="params.roadName != null and params.roadName != ''">
                 AND road_name LIKE CONCAT('%', #{params.roadName}, '%')
             </if>
-            <if test="params.beginNode != null and params.beginNode != ''">
-                AND begin_node LIKE CONCAT('%', #{cond})
+            <if test="params.roadType != null">
+                AND road_type = #{params.roadType}
             </if>
+            and deleted_at IS NULL
         </where>
         ORDER BY created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
@@ -28,9 +29,13 @@
             <if test="params.roadName != null and params.roadName != ''">
                 AND road_name LIKE CONCAT('%', #{params.roadName}, '%')
             </if>
-            <if test="params.beginNode != null and params.beginNode != ''"></if>
+            <if test="params.roadType != null and params.roadType != ''">
+                AND road_type = #{params.roadType}
+            </if>
+            and deleted_at IS NULL
         </where>
     </select>
+
     <select id="getRoadNodesByPage" resultType="com.schoolmap.entity.RoadNode">
         SELECT * FROM road_node
         <where>
@@ -40,6 +45,13 @@
             <if test="params.nodeName != null and params.nodeName != ''">
                 AND node_name LIKE CONCAT('%', #{params.nodeName}, '%')
             </if>
+            <if test="params.nodeType != null">
+                AND node_type = #{params.nodeType}
+            </if>
+            <if test="params.belong != null and params.belong != ''">
+                AND belong LIKE CONCAT('%', #{params.belong}, '%')
+            </if>
+            and deleted_at IS NULL
         </where>
         ORDER BY created_at DESC
         LIMIT #{pageSize} OFFSET #{offset}
@@ -53,33 +65,53 @@
             <if test="params.nodeName != null and params.nodeName != ''">
                 AND node_name LIKE CONCAT('%', #{params.nodeName}, '%')
             </if>
+            <if test="params.nodeType != null and params.nodeType != ''">
+                AND node_type = #{params.nodeType}
+            </if>
+            <if test="params.belong != null and params.belong != ''">
+                AND belong LIKE CONCAT('%', #{params.belong}, '%')
+            </if>
+            and deleted_at IS NULL
         </where>
     </select>
 
+    <select id="listAllRoadEdge" resultType="com.schoolmap.entity.RoadEdge">
+        SELECT * FROM road_edge WHERE deleted_at IS NULL
+    </select>
+    <select id="listAllRoadNode" resultType="com.schoolmap.entity.RoadNode">
+        SELECT * FROM road_node WHERE deleted_at IS NULL
+    </select>
+
     <insert id="insertRoadEdges" parameterType="com.schoolmap.entity.RoadEdge">
-        INSERT INTO road_edge (road_id, road_name, begin_node, end_node, length, type,about,uploader,created_at, updated_at)
-        VALUES (#{roadId}, #{roadName}, #{beginNode}, #{endNode}, #{length},#{type},#{about},#{uploader},NOW(), NOW())
+        INSERT INTO road_edge (road_no, road_name, begin_node, end_node, length, road_type,about,uploader,created_at, updated_at)
+        VALUES (#{roadNo}, #{roadName}, #{beginNode}, #{endNode}, #{length},#{roadType},#{about},#{uploader},NOW(), NOW())
     </insert>
 
     <insert id="insertRoadNodes" parameterType="com.schoolmap.entity.RoadNode">
-        INSERT INTO road_node (node_id, node_name,gis,about,uploader, created_at, updated_at)
-        VALUES (#{nodeId}, #{nodeName}, #{gis} , #{about} , #{uploader} , NOW(), NOW())
+        INSERT INTO road_node (node_no, node_name,node_type, belong, gis,about,uploader, created_at, updated_at)
+        VALUES (#{nodeNo}, #{nodeName}, #{nodeType}, #{belong} ,  #{gis} , #{about} , #{uploader} , NOW(), NOW())
     </insert>
 
 
     <update id="updateRoadEdges" parameterType="com.schoolmap.entity.RoadEdge">
         UPDATE road_edge
-        SET road_id = #{roadId},
+        SET road_no = #{roadNo},
             road_name = #{roadName},
             begin_node = #{beginNode},
             end_node = #{endNode},
+            length = #{length},
+            road_type = #{roadType},
+            about = #{about},
             updated_at = NOW()
         WHERE id = #{id}
     </update>
     <update id="updateRoadNodes" parameterType="com.schoolmap.entity.RoadNode">
         UPDATE road_node
-        SET node_id = #{nodeId},
+        SET node_No = #{nodeNo},
             node_name = #{nodeName},
+            node_type = #{nodeType},
+            belong = #{belong},
+            about = #{about},
             updated_at = NOW()
         WHERE id = #{id}
     </update>

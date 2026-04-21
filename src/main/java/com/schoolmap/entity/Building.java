@@ -17,11 +17,7 @@ public class Building implements Serializable {
 
     private String buildName;
 
-    private String type;
-
     private String gis;
-
-    private Integer containId;
 
     private String about;
 

@@ -15,7 +15,7 @@ public interface BuildWorkSpaceService {
     Boolean insertWorkSpace(BuildWorkSpace workSpace);
 
     /**
-     * 分页查询工作空间
+     * 分页条件查询工作空间
      */
     PageResultDTO<BuildWorkSpace> getWorkSpacesByPage(Long currentPage, Long pageSize, Map<String, Object> conditions);
 
@@ -29,9 +29,5 @@ public interface BuildWorkSpaceService {
      */
     Boolean deleteWorkSpacesBatch(List<Integer> ids);
 
-
-    /**
-     * 根据场地名称模糊查询
-     */
-//    List<BuildWorkSpace> queryBySpaceName(String spaceName);
+    List<BuildWorkSpace> listAllWoekspace();
 }

@@ -13,7 +13,7 @@ public class RoadEdge implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private Integer roadId;
+    private String roadNo;
 
     private String roadName;
 
@@ -23,7 +23,7 @@ public class RoadEdge implements Serializable {
 
     private String length;
 
-    private String type;
+    private Integer roadType;
 
     private String about;
 

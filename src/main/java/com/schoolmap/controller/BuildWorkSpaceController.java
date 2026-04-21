@@ -1,10 +1,9 @@
 package com.schoolmap.controller;
 
-import com.schoolmap.annotation.Authority;
 import com.schoolmap.common.Result;
 import com.schoolmap.constants.Constants;
-import com.schoolmap.entity.AuthorityType;
 import com.schoolmap.entity.BuildWorkSpace;
+import com.schoolmap.entity.Building;
 import com.schoolmap.entity.dto.PageResultDTO;
 import com.schoolmap.service.BuildWorkSpaceService;
 import jakarta.annotation.Resource;
@@ -22,6 +21,13 @@ public class BuildWorkSpaceController {
     @Resource
     private BuildWorkSpaceService buildWorkSpaceService;
 
+
+    //获取学校全部场景的地点
+    @GetMapping("/getAllSpace")
+    public Result inBuildingSpace(){
+        List<BuildWorkSpace> buildWorkSpaceList = buildWorkSpaceService.listAllWoekspace();
+        return Result.success(buildWorkSpaceList);
+    }
     /**
      * 分页查询工作空间列表
      */
@@ -58,7 +64,6 @@ public class BuildWorkSpaceController {
      * 新增工作空间
      */
     @PostMapping("/add")
-    @Authority(AuthorityType.requireAuthority)
     public Result addWorkSpace(@RequestBody BuildWorkSpace workSpace) {
         Boolean result = buildWorkSpaceService.insertWorkSpace(workSpace);
         if (result) {
@@ -72,7 +77,6 @@ public class BuildWorkSpaceController {
      * 更新工作空间
      */
     @PostMapping("/update")
-    @Authority(AuthorityType.requireAuthority)
     public Result updateWorkSpace(@RequestBody BuildWorkSpace workSpace) {
         Boolean result = buildWorkSpaceService.updateWorkSpace(workSpace);
         if (result) {
@@ -85,8 +89,7 @@ public class BuildWorkSpaceController {
     /**
      * 批量删除工作空间
      */
-    @PostMapping("/batchDelete")
-    @Authority(AuthorityType.requireAuthority)
+    @DeleteMapping("/delete")
     public Result deleteWorkSpacesBatch(@RequestBody List<Integer> ids) {
         Boolean result = buildWorkSpaceService.deleteWorkSpacesBatch(ids);
         if (result) {

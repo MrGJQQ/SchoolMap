@@ -75,4 +75,14 @@ public class RoadServiceImpl implements RoadService {
     public Boolean deleteRoadNodes(List<Integer> roadNodeIds) {
         return roadMapper.deleteRoadNodes(roadNodeIds);
     }
+
+    @Override
+    public List<RoadEdge> listAllRoadEdge() {
+        return roadMapper.listAllRoadEdge();
+    }
+
+    @Override
+    public List<RoadNode> listAllRoadNode() {
+        return roadMapper.listAllRoadNode();
+    }
 }

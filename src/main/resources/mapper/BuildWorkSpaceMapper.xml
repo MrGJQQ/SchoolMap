@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.schoolmap.mapper.BuildWorkSpaceMapper">
     <insert id="insertWorkSpace">
-        INSERT INTO location_workspace (space_no, space_name, type, build_id, uploader, created_at)
-        VALUES (#{spaceNo}, #{spaceName}, #{type}, #{buildId}, #{uploader}, NOW())
+        INSERT INTO location_workspace (space_no, space_name, type, build_id, about ,uploader, created_at,updated_at)
+        VALUES (#{spaceNo}, #{spaceName}, #{type}, #{buildId},#{about}, #{uploader}, NOW(),NOW())
     </insert>
     <update id="deleteWorkSpacesByIds">
         update location_workspace
@@ -19,6 +19,7 @@
             space_name = #{spaceName},
             type = #{type},
             build_id = #{buildId},
+            about = #{about},
             uploader = #{uploader},
             updated_at = NOW()
         WHERE id = #{id}
@@ -70,6 +71,16 @@
             </if>
             AND deleted_at IS NULL
         </where>
+    </select>
+
+    <select id="listAllbuild" resultType="com.schoolmap.entity.BuildWorkSpace">
+        SELECT * FROM location_workspace
+        WHERE deleted_at IS NULL
+    </select>
+    <select id="getSpaceListByBuildId" resultType="com.schoolmap.entity.BuildWorkSpace">
+        SELECT * FROM location_workspace
+        WHERE build_id = #{buildId}
+        AND deleted_at IS NULL
     </select>
 
 </mapper>

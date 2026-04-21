@@ -18,9 +18,6 @@ public class BuildWorkSpaceServiceImpl implements BuildWorkSpaceService {
 
     @Resource
     private BuildWorkSpaceMapper buildWorkSpaceMapper;
-    @Autowired
-    private BuildingMapper buildingMapper;
-
 
     @Override
     public Boolean insertWorkSpace(BuildWorkSpace workSpace) {
@@ -51,11 +48,9 @@ public class BuildWorkSpaceServiceImpl implements BuildWorkSpaceService {
         return buildWorkSpaceMapper.deleteWorkSpacesByIds(ids);
     }
 
-//    @Override
-//    public List<BuildWorkSpace> queryBySpaceName(String spaceName) {
-//        QueryWrapper<BuildWorkSpace> wrapper = new QueryWrapper<>();
-//        wrapper.like("space_name", spaceName);
-//        wrapper.isNull("deleted_at");
-//        return buildWorkSpaceMapper.(wrapper);
-//    }
+    @Override
+    public List<BuildWorkSpace> listAllWoekspace() {
+        return buildWorkSpaceMapper.listAllbuild();
+    }
+
 }
