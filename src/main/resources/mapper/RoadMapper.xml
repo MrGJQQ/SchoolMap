@@ -81,6 +81,15 @@
     <select id="listAllRoadNode" resultType="com.schoolmap.entity.RoadNode">
         SELECT * FROM road_node WHERE deleted_at IS NULL
     </select>
+    <select id="countRoadEdges" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM road_edge
+    </select>
+    <select id="countRoadNodes" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM road_node
+    </select>
+    <select id="getNodeByName" resultType="com.schoolmap.entity.RoadNode">
+        SELECT * FROM road_node WHERE node_name LIKE CONCAT('%', #{nodeName}, '%')
+    </select>
 
     <insert id="insertRoadEdges" parameterType="com.schoolmap.entity.RoadEdge">
         INSERT INTO road_edge (road_no, road_name, begin_node, end_node, length, road_type,about,uploader,created_at, updated_at)
@@ -109,6 +118,7 @@
         UPDATE road_node
         SET node_No = #{nodeNo},
             node_name = #{nodeName},
+            gis = #{gis},
             node_type = #{nodeType},
             belong = #{belong},
             about = #{about},

@@ -76,5 +76,8 @@
     <select id="listAllbuild" resultType="com.schoolmap.entity.Building">
         SELECT * FROM location_build WHERE deleted_at IS NULL
     </select>
+    <select id="countBuildings" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM location_build
+    </select>
 
 </mapper>

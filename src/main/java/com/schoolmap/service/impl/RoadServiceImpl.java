@@ -48,12 +48,24 @@ public class RoadServiceImpl implements RoadService {
 
     @Override
     public Boolean insertRoadEdges(RoadEdge roadEdge) {
+        Integer edgeNums = countRoadEdges();
+        String roadNo = String.format("R%08d", edgeNums);
+        roadEdge.setRoadNo(roadNo);
         return roadMapper.insertRoadEdges(roadEdge);
+    }
+    private Integer countRoadEdges() {
+        return roadMapper.countRoadEdges();
     }
 
     @Override
     public Boolean insertRoadNodes(RoadNode roadNode) {
+        Integer nodeNums = countRoadNodes();
+        String nodeNo = String.format("N%08d", nodeNums);
+        roadNode.setNodeNo(nodeNo);
         return roadMapper.insertRoadNodes(roadNode);
+    }
+    private Integer countRoadNodes() {
+        return roadMapper.countRoadNodes();
     }
 
     @Override
@@ -84,5 +96,10 @@ public class RoadServiceImpl implements RoadService {
     @Override
     public List<RoadNode> listAllRoadNode() {
         return roadMapper.listAllRoadNode();
+    }
+
+    @Override
+    public List<RoadNode> getNodeByName(String nodeName) {
+        return roadMapper.getNodeByName(nodeName);
     }
 }

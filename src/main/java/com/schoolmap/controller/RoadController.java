@@ -33,6 +33,12 @@ public class RoadController {
         return Result.success(roadNodeList);
     }
 
+    @GetMapping("/getNodeByName")
+    public Result getNodeByName(String nodeName) {
+        List<RoadNode> roadNodeList = roadService.getNodeByName(nodeName);
+        return Result.success(roadNodeList);
+    }
+
 
     @GetMapping
     public Result pageRoadEdges(@RequestParam(defaultValue = "1") Long currentPage,

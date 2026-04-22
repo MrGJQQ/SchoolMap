@@ -82,5 +82,8 @@
         WHERE build_id = #{buildId}
         AND deleted_at IS NULL
     </select>
+    <select id="countWorkSpace" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM location_workspace
+    </select>
 
 </mapper>

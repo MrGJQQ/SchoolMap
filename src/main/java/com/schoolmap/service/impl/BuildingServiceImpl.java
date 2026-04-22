@@ -43,7 +43,15 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public Boolean insertBuild(Building building) {
+
+        Integer buildNum = countBuildingsNums();
+        String buildNo = String.format("B%08d", buildNum);
+        building.setBuildNo(buildNo);
         return buildingMapper.insertBuild(building);
+    }
+
+    private Integer countBuildingsNums() {
+            return buildingMapper.countBuildings();
     }
 
     @Override

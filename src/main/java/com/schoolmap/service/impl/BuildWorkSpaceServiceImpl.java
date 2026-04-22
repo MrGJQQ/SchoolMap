@@ -21,6 +21,9 @@ public class BuildWorkSpaceServiceImpl implements BuildWorkSpaceService {
 
     @Override
     public Boolean insertWorkSpace(BuildWorkSpace workSpace) {
+        Integer spaceNums = buildWorkSpaceMapper.countWorkSpace();
+        String buildNo = String.format("W%08d", spaceNums);
+        workSpace.setSpaceNo(buildNo);
         return buildWorkSpaceMapper.insertWorkSpace(workSpace);
     }
 

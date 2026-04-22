@@ -23,4 +23,6 @@ public interface RoadService {
 
     List<RoadEdge> listAllRoadEdge();
     List<RoadNode> listAllRoadNode();
+
+    List<RoadNode> getNodeByName(String nodeName);
 }

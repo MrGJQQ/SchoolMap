@@ -22,6 +22,7 @@ public interface BuildingMapper {
     List<Building> getBuildingsByPage(Long offset, Long pageSize, Map<String, Object> conditions);
 
     Long countBuildingsNums(Map<String, Object> conditions);
+    Integer countBuildings();
 
     Boolean updateBuild(Building building);
 
@@ -40,4 +41,6 @@ public interface BuildingMapper {
     List<Building> queryByBuildName(String buildName);
 
     List<Building> listAllbuild();
+
+
 }

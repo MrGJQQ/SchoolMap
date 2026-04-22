@@ -27,4 +27,10 @@ public interface RoadMapper {
 
     List<RoadEdge> listAllRoadEdge();
     List<RoadNode> listAllRoadNode();
+
+    Integer countRoadEdges();
+
+    Integer countRoadNodes();
+
+    List<RoadNode> getNodeByName(String nodeName);
 }

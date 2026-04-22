@@ -38,5 +38,8 @@ public interface BuildWorkSpaceMapper{
 
     List<BuildWorkSpace> listAllbuild();
 
+    Integer countWorkSpace();
+
     List<BuildWorkSpace> getSpaceListByBuildId(Integer id);
+
 }
