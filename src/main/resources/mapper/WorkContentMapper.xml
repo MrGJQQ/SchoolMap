@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolmap.mapper.WorkContentMapper">
+    <insert id="insertWorkContent">
+        INSERT INTO work_content (work_name, about, space_no, space_name, uploader, created_at, updated_at)
+        VALUES (#{workName}, #{about}, #{spaceNo}, #{spaceName}, #{uploader}, NOW(), NOW())
+    </insert>
+    <update id="updateWorkContent">
+        UPDATE work_content
+        SET work_name = #{workName},
+            about = #{about},
+            space_no = #{spaceNo},
+            space_name = #{spaceName},
+            uploader = #{uploader},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+    <update id="deleteWorkContent">
+        update work_content
+        set deleted_at = NOW()
+        WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <select id="listWorkContent" resultType="com.schoolmap.entity.WorkContent">
+        SELECT * FROM work_content
+        <where>
+            <if test="conditions.spaceNo != null and conditions.spaceNo != ''">
+                AND space_no LIKE CONCAT('%', #{conditions.spaceNo}, '%')
+            </if>
+            <if test="conditions.spaceName != null and conditions.spaceName != ''">
+                AND space_name LIKE CONCAT('%', #{conditions.spaceName}, '%')
+            </if>
+            <if test="conditions.workName != null and conditions.workName != ''">
+                AND work_name LIKE CONCAT('%', #{conditions.workName}, '%')
+            </if>
+            AND deleted_at IS NULL
+        </where>
+        ORDER BY created_at DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <select id="countWorkNums" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM work_content
+        <where>
+            <if test="conditions.spaceNo != null and conditions.spaceNo != ''">
+                AND space_no LIKE CONCAT('%', #{conditions.spaceNo}, '%')
+            </if>
+            <if test="conditions.spaceName != null and conditions.spaceName != ''">
+                AND space_name LIKE CONCAT('%', #{conditions.spaceName}, '%')
+            </if>
+            <if test="conditions.workName != null and conditions.workName != ''">
+                AND work_name LIKE CONCAT('%', #{conditions.workName})
+            </if>
+            AND deleted_at IS NULL
+        </where>
+    </select>
+
+
+</mapper>
