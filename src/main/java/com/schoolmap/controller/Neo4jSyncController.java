@@ -59,4 +59,16 @@ public class Neo4jSyncController {
             return Result.error("500", result.getMessage());
         }
     }
+
+    @PostMapping("/sync/relationships")
+    public Result syncRelationships() {
+        log.info("接收到同步节点关系的请求");
+        try {
+            neo4jSyncService.syncRelationships();
+            return Result.success("关系同步成功");
+        } catch (Exception e) {
+            log.error("关系同步失败", e);
+            return Result.error("500", "关系同步失败: " + e.getMessage());
+        }
+    }
 }

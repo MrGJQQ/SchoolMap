@@ -2,6 +2,7 @@ package com.schoolmap.mapper;
 
 import com.schoolmap.entity.WorkContent;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -15,5 +16,8 @@ public interface WorkContentMapper {
     Boolean insertWorkContent(WorkContent workContent);
     Boolean updateWorkContent(WorkContent workContent);
     Boolean deleteWorkContent(List<Integer> ids);
+
+    @Select("SELECT * FROM work_content")
+    List<WorkContent> listAllWorkContentWithDeleted();
 
 }

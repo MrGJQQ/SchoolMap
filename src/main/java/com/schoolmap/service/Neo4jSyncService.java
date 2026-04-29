@@ -11,4 +11,6 @@ public interface Neo4jSyncService {
     Neo4jSyncResult syncWorkSpacesToNeo4j();
 
     Neo4jSyncResult syncWorkContentsToNeo4j();
+
+    void syncRelationships();
 }

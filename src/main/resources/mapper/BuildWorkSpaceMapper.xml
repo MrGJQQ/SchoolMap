@@ -85,5 +85,10 @@
     <select id="countWorkSpace" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM location_workspace
     </select>
+    <select id="queryBySpaceNo" resultType="com.schoolmap.entity.BuildWorkSpace">
+        SELECT * FROM location_workspace
+        WHERE space_no =  #{spaceNo}
+        AND deleted_at IS NULL
+    </select>
 
 </mapper>

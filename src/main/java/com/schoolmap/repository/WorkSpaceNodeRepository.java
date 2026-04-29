@@ -2,6 +2,7 @@ package com.schoolmap.repository;
 
 import com.schoolmap.entity.neo4j.WorkSpaceNode;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface WorkSpaceNodeRepository extends Neo4jRepository<WorkSpaceNode, 
     Optional<WorkSpaceNode> findFirstBySpaceNo(String spaceNo);
 
     Optional<WorkSpaceNode> findFirstById(Integer id);
+
+    @Query("MATCH (ws:WorkSpace), (b:Building) WHERE ws.buildId = b.id MERGE (ws)-[:BELONGS_TO_BUILDING]->(b)")
+    void createWorkSpaceToBuildingRelationships();
 }

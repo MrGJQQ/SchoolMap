@@ -19,5 +19,17 @@ public class Neo4jSyncResult {
 
     private int workContentCount;
 
+    private int buildingUpdatedCount;
+
+    private int workSpaceUpdatedCount;
+
+    private int workContentUpdatedCount;
+
+    private int buildingDeletedCount;
+
+    private int workSpaceDeletedCount;
+
+    private int workContentDeletedCount;
+
     private String message;
 }

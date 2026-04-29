@@ -11,23 +11,14 @@ import java.util.Map;
 @Mapper
 public interface BuildWorkSpaceMapper{
 
-    /**
-     * 分页查询工作空间
-     */
     List<BuildWorkSpace> getWorkSpacesByPage(@Param("offset") Long offset,
                                            @Param("pageSize") Long pageSize,
                                            @Param("conditions") Map<String, Object> conditions);
 
-    /**
-     * 统计工作空间数量
-     */
     Long countWorkSpaceNums(@Param("conditions") Map<String, Object> conditions);
 
 
-    /**
-     * 根据场地名称模糊查询
-     */
-    @Select("SELECT * FROM location_workspace WHERE space_name LIKE CONCAT('%', #{spaceName}, '%') AND deleted_at IS NULL")
+    @Select("SELECT * FROM location_workspace WHERE space_name LIKE CONCAT('%', #{spaceName}, '%')")
     List<BuildWorkSpace> queryBySpaceName(String spaceName);
 
     Boolean deleteWorkSpacesByIds(List<Integer> ids);
@@ -41,5 +32,7 @@ public interface BuildWorkSpaceMapper{
     Integer countWorkSpace();
 
     List<BuildWorkSpace> getSpaceListByBuildId(Integer id);
+
+    BuildWorkSpace  queryBySpaceNo(String spaceNo);
 
 }
